@@ -15,7 +15,7 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ( 'characters.user_id', ) #TODO
+    serialize_rules = ( 'characters.user', ) #TODO
 
     user_id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
