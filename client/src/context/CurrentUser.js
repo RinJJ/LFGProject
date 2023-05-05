@@ -1,10 +1,12 @@
-import React from "react";
+import React, {useState} from "react";
 
-function CurrentUser() {
+const CurrentUserContext = React.createContext()
 
+function CurrentUserProvider({children}) {
 
+    const [CurrentUser, setCurrentUser] = useState(null)
 
-    return <div>CurrentUser</div>;
+    return <CurrentUserContext.Provider value={{ CurrentUser, setCurrentUser }}></CurrentUserContext.Provider>
 }
 
-export default CurrentUser;
+export {CurrentUserContext, CurrentUserProvider};

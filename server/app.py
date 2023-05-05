@@ -34,22 +34,22 @@ class User(Resource):
         users_dict = [user.to_dict() for user in users]
         return make_response( users_dict, 200 )
 
-    # def post(self):
-    #     try:
-    #         data = request.get_json()
-    #         new_user = User(
-    #             username = data['username'],
-    #             email = data['email'],
-    #             password = data['password'],
-    #         )
-    #         db.session.add( new_user )
-    #         db.session.commit()
-    #         session['user_id'] = new_user.user_id  ### if it doesnt work check ix auth video #1 @17:00 user_id is what i called id in models
-    #         new_user_dict = new_user.to_dict()
-    #         return make_response(new_user_dict, 201)
-    #     except Exception as e:
-    #         db.session.rollback()
-    #         return make_response( { 'Error' : str(e) }, 422 )
+#     def post(self):
+#         try:
+#             data = request.get_json()
+#             new_user = User(
+#                 username = data['username'],
+#                 email = data['email'],
+#                 password = data['password'],
+#             )
+#             db.session.add( new_user )
+#             db.session.commit()
+#             session['user_id'] = new_user.user_id  ### if it doesnt work check ix auth video #1 @17:00 user_id is what i called id in models
+#             new_user_dict = new_user.to_dict()
+#             return make_response(new_user_dict, 201)
+#         except Exception as e:
+#             db.session.rollback()
+#             return make_response( { 'Error' : str(e) }, 422 )
 
 api.add_resource(User, '/users')
 
@@ -67,32 +67,32 @@ class UserById(Resource):
         user_by_id_dict = user_by_id.to_dict()
         return make_response( user_by_id_dict, 200 )
 
-    def patch(self, id):
-        try:
-            user_by_id = User.query.filter(User.id == id).first()
-            if user_by_id == None:
-                return make_response( { 'error' : '404 User not found' } ) 
-            for attr in request.get_json():
-                setattr( user_by_id, attr, request.get_json()[attr] )
-            db.session.add( user_by_id )
-            db.session.commit()
-            user_by_id_dict = user_by_id.to_dict()
-            return make_response(user_by_id_dict, 201 )
-        except Exception as e:
-            db.session.rollback()
-            return make_response( { "error" : str(e) }, 422 )
+    # def patch(self, id):
+    #     try:
+    #         user_by_id = User.query.filter(User.id == id).first()
+    #         if user_by_id == None:
+    #             return make_response( { 'error' : '404 User not found' } ) 
+    #         for attr in request.get_json():
+    #             setattr( user_by_id, attr, request.get_json()[attr] )
+    #         db.session.add( user_by_id )
+    #         db.session.commit()
+    #         user_by_id_dict = user_by_id.to_dict()
+    #         return make_response(user_by_id_dict, 201 )
+    #     except Exception as e:
+    #         db.session.rollback()
+    #         return make_response( { "error" : str(e) }, 422 )
         
-    def delete(self,id):
-        try:
-            user_by_id = User.query.filter(User.id == id).first()
-            if user_by_id == None:
-                return make_response( { 'error' : '404 User not found' } ) 
-            db.session.delete(user_by_id)
-            db.session.commit()
-            return make_response( {} )
-        except Exception as e:
-            db.session.rollback()
-            return make_response( { "error" : str(e) }, 422 )
+    # def delete(self,id):
+    #     try:
+    #         user_by_id = User.query.filter(User.id == id).first()
+    #         if user_by_id == None:
+    #             return make_response( { 'error' : '404 User not found' } ) 
+    #         db.session.delete(user_by_id)
+    #         db.session.commit()
+    #         return make_response( {} )
+    #     except Exception as e:
+    #         db.session.rollback()
+    #         return make_response( { "error" : str(e) }, 422 )
 
 api.add_resource(UserById, '/users/<int:id>')
 
@@ -334,7 +334,7 @@ class Signup(Resource):
             new_user.password_hash = data['password']
             db.session.add( new_user )
             db.session.commit()
-            session['user_id'] = new_user.user_id  ### if it doesnt work check ix auth video #1 @17:00 user_id is what i called id in models
+            session['id'] = new_user.id  ### if it doesnt work check ix auth video #1 @17:00 id is what i called id in models
             new_user_dict = new_user.to_dict()
             return make_response(new_user_dict, 201)
         except Exception as e:
@@ -346,9 +346,9 @@ api.add_resource(Signup, '/signup')
 class Login(Resource):
     def post(self):
         try:
-            user = User.query.filter_by(user_id=request.get_json()['user_id']).first()
+            user = User.query.filter_by(id=request.get_json()['id']).first()
             if user.authenticate(request.get_json()['password']):
-                session['user_id'] = user.user_id ###named this way due to how the tables are setup?
+                session['id'] = user.id ###named this way due to how the tables are setup?
                 response = make_response(user.to_dict(), 200)
                 return response
         except Exception as e:
@@ -359,7 +359,7 @@ api.add_resource(Login, '/login')
 
 class Logout(Resource):
     def delete(self):
-        session['user_id'] = None
+        session['id'] = None
         response = make_response('',204)
         return response
 
@@ -367,7 +367,7 @@ api.add_resource(Logout, '/Logout')
 
 class AuthorizedSession(Resource):
     def get(self):
-        user = User.query.filter_by(user_id=session.get('user_id')).first()
+        user = User.query.filter_by(id=session.get('id')).first()
         if user:
             response = make_response(
                 user.to_dict(), 200

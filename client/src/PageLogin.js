@@ -1,19 +1,20 @@
-import React, {useState} from "react"
+import React, {useState, useContext} from "react"
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 import { Form } from 'react-bootstrap'
 import { useHistory } from "react-router-dom"
+import { UserAuthContext } from "./context/UserAuth"
 
 
 
 
 function PageLogin( {  } ) {
 
-    const [userAuth, setUserAuth] = useState(null)
+    const {userAuth, setUserAuth} = useContext(UserAuthContext)
     const [ signUp, setSignUp ] = useState(false)
     const history = useHistory()
 
-    const handleClick = () => setSignUp((signUp) => !signUp)
+    const handleClick = () => setSignUp((signUp) => !signUp) //is it possible to instaed of using the button but use the above state to modify which form shows
 
 
 
@@ -21,7 +22,7 @@ function PageLogin( {  } ) {
 
 
     const formSchema = yup.object().shape({
-        username: yup.string().required('Please enter a username'),
+        username: yup.string(),
         email: yup.string().email(),
         password: yup.string()
     })
@@ -46,9 +47,22 @@ function PageLogin( {  } ) {
                 setUserAuth(user)
                 history.push('/')
             })
-
         }
     })
+
+    // This handle logout with be a navbar onclick?? that replaces the Login Nav 
+
+    const handleLogout = () => {
+        fetch('http://127.0.0.1:5555/Logout', {
+            method: 'DELETE',
+        }).then(r => {
+            if(r.ok){
+                setUserAuth(null)
+                history.push('/')
+            }
+        })
+    }
+
 
         return (
             <>
@@ -56,7 +70,6 @@ function PageLogin( {  } ) {
             <h2>Please Log in or Sign up!</h2>
             <h2>{signUp?'Already a member?':'Not a member?'}</h2>
             <button onClick={handleClick}>{signUp?'Log in!':'Register now!'}</button>
-            
             <Form className='login-create' onSubmit={formik.handleSubmit}>
                 <div>
                     {signUp?(

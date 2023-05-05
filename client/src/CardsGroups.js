@@ -3,6 +3,7 @@ import React from "react";
 function CardsGroups() {
 
     //TODO: how to get current user here to then fetch cards using
+    //TODO: how to select a group to join with a modal and a character select dro
 
     const handleDelete = null
 

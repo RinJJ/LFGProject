@@ -9,7 +9,9 @@ import PageLFG from './PageLFG';
 import Home from './Home';
 import NavBar from './NavBar';
 
+import { UserAuthProvider } from './context/UserAuth';
 
+//TODO: how to handle log out? Conditional rendering on MY pages and Login to change to logout based on current user auth state
 
 function App() {
 
@@ -17,7 +19,7 @@ function App() {
   return (
   <BrowserRouter>
     <>
-
+      <UserAuthProvider>
         <header>
           <NavBar/>
         </header>
@@ -40,6 +42,7 @@ function App() {
               </Route>
           </Switch>
         </div>
+        </UserAuthProvider>
 
     </>
   </BrowserRouter>

@@ -1,9 +1,9 @@
-import React, {useEffect, useState, useffect} from "react";
+import React, {useEffect, useState} from "react";
+
 
 const UserAuthContext = React.createContext()
 
-
-function UserAuthProvider() {
+function UserAuthProvider({children}) {
   
   const [userAuth, setUserAuth] = useState(null)
 
@@ -18,7 +18,11 @@ function UserAuthProvider() {
 
 
 
-  return 
+  return (
+  <UserAuthContext.Provider value={{ userAuth, setUserAuth }} >
+    {children}
+  </UserAuthContext.Provider >
+  )
 }
 
-export { UserAuthContext, UserAuthProvider } 
+export { UserAuthContext, UserAuthProvider } ;
