@@ -6,7 +6,7 @@ function CurrentUserProvider({children}) {
 
     const [CurrentUser, setCurrentUser] = useState(null)
 
-    return <CurrentUserContext.Provider value={{ CurrentUser, setCurrentUser }}></CurrentUserContext.Provider>
+    return <CurrentUserContext.Provider value={{ CurrentUser, setCurrentUser }}>{children}</CurrentUserContext.Provider>
 }
 
 export {CurrentUserContext, CurrentUserProvider};

@@ -1,94 +1,117 @@
 import React, {useState, useContext} from "react"
-import { useFormik } from 'formik'
-import * as yup from 'yup'
-import { Form } from 'react-bootstrap'
+import Button from 'react-bootstrap/Button'
+import Form from 'react-bootstrap/Form'
 import { useHistory } from "react-router-dom"
 import { UserAuthContext } from "./context/UserAuth"
+import { CurrentUserContext } from "./context/CurrentUser"
 
 
 
 
-function PageLogin( {  } ) {
+function PageLogin( ) {
 
-    const {userAuth, setUserAuth} = useContext(UserAuthContext)
+    const { userAuth, setUserAuth } = useContext(UserAuthContext) // is this the session or the user? do i need a seperate context for "current user"
+    const { currentUser, setCurrentUser } = useContext(CurrentUserContext)
+
     const [ signUp, setSignUp ] = useState(false)
     const history = useHistory()
 
     const handleClick = () => setSignUp((signUp) => !signUp) //is it possible to instaed of using the button but use the above state to modify which form shows
 
 
+    const [ username, setUsername ] = useState('')
+    const [ email, setEmail ] = useState('')
+    const [ password, setPassword ] = useState('')
 
+    const handleUsername = (e) => { setUsername(e.target.value) }
+    const handleEmail = (e) => { setEmail(e.target.value) }
+    const handlePassword = (e) => { setPassword(e.target.value) }
 
+    const handleSubmit = (e) => {
+        e.preventDefault()
 
+        const newUser ={
+            username: username,
+            email: email,
+            password: password,
+        }
 
-    const formSchema = yup.object().shape({
-        username: yup.string(),
-        email: yup.string().email(),
-        password: yup.string()
-    })
-
-    const formik = useFormik({
-        initialValues:{
-            name:'',
-            email:'',
-            password:''
-        },
-        validationSchema:formSchema,
-        onSubmit:(values) => {
-            fetch(signUp?'http://127.0.0.1:5555/signup':'http://127.0.0.1:5555/login',{
+        fetch(signUp?'http://127.0.0.1:5555/signup':'http://127.0.0.1:5555/login',{
                 method: 'POST',
                 headers:{
                     'Content-Type':'application/json'
                 },
-                body: JSON.stringify(values)
+                body: JSON.stringify(newUser)
             })
             .then(r => r.json())
             .then(user => {
                 setUserAuth(user)
+                setCurrentUser(user)
                 history.push('/')
             })
-        }
-    })
-
-    // This handle logout with be a navbar onclick?? that replaces the Login Nav 
-
-    const handleLogout = () => {
-        fetch('http://127.0.0.1:5555/Logout', {
-            method: 'DELETE',
-        }).then(r => {
-            if(r.ok){
-                setUserAuth(null)
-                history.push('/')
-            }
-        })
     }
 
 
-        return (
-            <>
-            {Object.values(formik.errors).map(error => <h2 style={{color:'red'}}>{error}</h2>)}
-            <h2>Please Log in or Sign up!</h2>
-            <h2>{signUp?'Already a member?':'Not a member?'}</h2>
-            <button onClick={handleClick}>{signUp?'Log in!':'Register now!'}</button>
-            <Form className='login-create' onSubmit={formik.handleSubmit}>
-                <div>
-                    {signUp?(
-                        <>
-                        <input onChange={formik.handleChange} type='text' value={formik.values.username} name='Username' placeholder='Username'/>
-                        <input onChange={formik.handleChange} type='text' value={formik.values.email} name='Email' placeholder='Email'/>
-                        <input onChange={formik.handleChange} type='text' value={formik.values.password} name='title' placeholder='Password'/>
-                        </>
-                    ):
+
+    // This handle logout with be a navbar onclick?? that replaces the Login Nav 
+
+    // const handleLogout = () => {
+    //     fetch('http://127.0.0.1:5555/Logout', {
+    //         method: 'DELETE',
+    //     }).then(r => {
+    //         if(r.ok){
+    //             setUserAuth(null)
+    //             history.push('/')
+    //         }
+    //     })
+    // }
+
+
+
+
+
+    //     onSubmit:(values) => {
+    //         fetch(signUp?'http://127.0.0.1:5555/signup':'http://127.0.0.1:5555/login',{
+    //             method: 'POST',
+    //             headers:{
+    //                 'Content-Type':'application/json'
+    //             },
+    //             body: JSON.stringify(values)
+    //         })
+    //         .then(r => r.json())
+    //         .then(user => {
+    //             setUserAuth(user)
+    //             history.push('/')
+    //         })
+    //     }
+    // }
+
+//TODO: How to have error messages from the form show 
+
+    return (
+        <>
+        <h2>Please Log in or Sign up!</h2>
+        <h2>{signUp?'Already a member?':'Not a member?'}</h2>
+        <button onClick={handleClick}>{signUp?'Log in!':'Register now!'}</button>
+        <Form className='login-create' onSubmit={handleSubmit}>
+            <div>
+                {signUp?(
                     <>
-                        <input onChange={formik.handleChange} type='text' value={formik.values.email} name='Email' placeholder='Email'/>
-                        <input onChange={formik.handleChange} type='text' value={formik.values.password} name='title' placeholder='Password'/>
-                        </>
-                    }
-                    <input type='submit' value={signUp?'Sign Up!' : 'Log In!'}/>
-                </div>
-            </Form>
-            </>
-        )
+                        <Form.Control onChange={handleUsername} type='text' name='Username' placeholder='Username'/>
+                        <Form.Control onChange={handleEmail} type='text' name='Email' placeholder='Email'/>
+                        <Form.Control onChange={handlePassword} type='text' name='Password' placeholder='Password'/>
+                    </>
+                ):
+                    <>
+                        <Form.Control onChange={handleEmail} type='text' name='Email' placeholder='Email'/>
+                        <Form.Control onChange={handlePassword} type='text' name='Password' placeholder='Password'/>
+                    </>
+                }
+                <Button type='submit' value={signUp?'Sign Up!' : 'Log In!'}>{signUp?'Sign Up!' : 'Log In!'}</Button>
+            </div>
+        </Form>
+        </>
+    )
 }
 
 export default PageLogin;

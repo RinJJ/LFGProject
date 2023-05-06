@@ -62,7 +62,7 @@ class Character(db.Model, SerializerMixin):
     user_id = db.Column(db.String, db.ForeignKey('users.id'), nullable = False)
 
     character_groups = db.relationship( 'CharacterGroup', backref='character' )
-    groups = association_proxy( 'character_groups', 'group' ) 
+    groups = association_proxy( 'character_groups', 'group' ) #TODO: I could not get this to work by Character.query.get(2).group or Character.query.get(2).groups
 
     @validates('character_name')
     def validate_character_name(self, key, character_name):
@@ -78,7 +78,7 @@ class Character(db.Model, SerializerMixin):
     
     @validates('character_class')
     def validate_character_class(self, key, character_class):
-        if character_class not in [ 'Barbarian','Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock' ]:
+        if character_class not in [ 'Barbarian','Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard' ]:
             raise ValueError("Must provide a valid class for your character")
         return character_class
 

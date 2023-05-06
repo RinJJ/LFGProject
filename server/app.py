@@ -3,7 +3,7 @@ from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
 from config import app, db, api, bcrypt
-from models import *
+from models import User, Group, Character, CharacterGroup
 
 
 #TODO: remember that we need seperate gets that get get a list of Groups by User/Username and by Character
@@ -35,7 +35,7 @@ class User(Resource):
         return make_response( users_dict, 200 )
 
 #     def post(self):
-#         try:
+#         try:Char
 #             data = request.get_json()
 #             new_user = User(
 #                 username = data['username'],
