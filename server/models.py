@@ -1,3 +1,5 @@
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import MetaData
 from sqlalchemy.orm import validates
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.ext.hybrid import hybrid_property
@@ -11,8 +13,9 @@ from config import db, bcrypt
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
 
-    serialize_rules = ( 'characters.user', ) #TODO
-
+    serialize_rules = ( '-characters.user', '-groups' ) #TODO: I would like to just go over mindset on what we really want from this when doing a request from front end.
+# Is the reason that trying to get the groups to serialize is breaking because it is also trying to serialize user or character again and I need to add the rules here? 
+# Do these rules only apply when fetching from this specific model or do the rules count as the other data is serialized through
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
     email = db.Column(db.String(100), nullable=False)
@@ -52,14 +55,14 @@ class User(db.Model, SerializerMixin):
 class Character(db.Model, SerializerMixin):
     __tablename__ = 'characters'
 
-    serialize_rules = ( 'character_groups.character', ) #TODO
+    serialize_rules = ( '-character_groups.character', ) #TODO
 
     id = db.Column(db.Integer, primary_key=True)
     character_name = db.Column(db.String, nullable=False)
     character_race = db.Column(db.String, nullable=False)
     character_class = db.Column(db.String, nullable=False)
 
-    user_id = db.Column(db.String, db.ForeignKey('users.id'), nullable = False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
 
     character_groups = db.relationship( 'CharacterGroup', backref='character' )
     groups = association_proxy( 'character_groups', 'group' ) #TODO: I could not get this to work by Character.query.get(2).group or Character.query.get(2).groups
@@ -90,7 +93,7 @@ class Character(db.Model, SerializerMixin):
 class CharacterGroup(db.Model, SerializerMixin):
     __tablename__ = 'character_groups'
 
-    serialize_rules = ( 'group.character_group', 'characters.character_group' ) #TODO
+    serialize_rules = ( '-character_groups', '-characters.character_groups' ) #TODO
 
     id = db.Column(db.Integer, primary_key=True)
     character_id = db.Column(db.Integer, db.ForeignKey('characters.id'), nullable=False)
@@ -104,13 +107,13 @@ class CharacterGroup(db.Model, SerializerMixin):
 class Group(db.Model, SerializerMixin):
     __tablename__ = 'groups'
 
-    serialize_rules = ( 'character_groups.group', ) #TODO
+    serialize_rules = ( '-characters', ) #TODO
 
     id = db.Column(db.Integer, primary_key=True)
     group_name = db.Column(db.String(75), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    character_group = db.relationship( 'CharacterGroup', backref='character_groups', cascade='all, delete-orphan' ) 
+    character_groups = db.relationship( 'CharacterGroup', backref='character_groups', cascade='all, delete-orphan' ) 
     characters = association_proxy( 'character_groups', 'character' ) 
 
 

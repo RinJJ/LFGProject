@@ -2,6 +2,7 @@ from flask import Flask, request, make_response, session
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
+
 from config import app, db, api, bcrypt
 from models import User, Group, Character, CharacterGroup
 
@@ -13,6 +14,7 @@ from models import User, Group, Character, CharacterGroup
 
 
 app.secret_key = b'\x0e8.\xe0[\xdf\x01\x06\xc3\x8e\xf3\xeb\xdb\x0c\x7f\x88'
+
 
 class Home(Resource):
     def get(self):
@@ -26,7 +28,7 @@ api.add_resource(Home, '/')
 
 
 
-class User(Resource):
+class Users(Resource):
     def get(self):
         users = User.query.all()
         if users == None:
@@ -34,25 +36,7 @@ class User(Resource):
         users_dict = [user.to_dict() for user in users]
         return make_response( users_dict, 200 )
 
-#     def post(self):
-#         try:Char
-#             data = request.get_json()
-#             new_user = User(
-#                 username = data['username'],
-#                 email = data['email'],
-#                 password = data['password'],
-#             )
-#             db.session.add( new_user )
-#             db.session.commit()
-#             session['user_id'] = new_user.user_id  ### if it doesnt work check ix auth video #1 @17:00 user_id is what i called id in models
-#             new_user_dict = new_user.to_dict()
-#             return make_response(new_user_dict, 201)
-#         except Exception as e:
-#             db.session.rollback()
-#             return make_response( { 'Error' : str(e) }, 422 )
-
-api.add_resource(User, '/users')
-
+api.add_resource(Users, '/users')
 
 
 
@@ -67,33 +51,6 @@ class UserById(Resource):
         user_by_id_dict = user_by_id.to_dict()
         return make_response( user_by_id_dict, 200 )
 
-    # def patch(self, id):
-    #     try:
-    #         user_by_id = User.query.filter(User.id == id).first()
-    #         if user_by_id == None:
-    #             return make_response( { 'error' : '404 User not found' } ) 
-    #         for attr in request.get_json():
-    #             setattr( user_by_id, attr, request.get_json()[attr] )
-    #         db.session.add( user_by_id )
-    #         db.session.commit()
-    #         user_by_id_dict = user_by_id.to_dict()
-    #         return make_response(user_by_id_dict, 201 )
-    #     except Exception as e:
-    #         db.session.rollback()
-    #         return make_response( { "error" : str(e) }, 422 )
-        
-    # def delete(self,id):
-    #     try:
-    #         user_by_id = User.query.filter(User.id == id).first()
-    #         if user_by_id == None:
-    #             return make_response( { 'error' : '404 User not found' } ) 
-    #         db.session.delete(user_by_id)
-    #         db.session.commit()
-    #         return make_response( {} )
-    #     except Exception as e:
-    #         db.session.rollback()
-    #         return make_response( { "error" : str(e) }, 422 )
-
 api.add_resource(UserById, '/users/<int:id>')
 
 
@@ -101,8 +58,7 @@ api.add_resource(UserById, '/users/<int:id>')
 
 
 
-
-class Character(Resource):
+class Characters(Resource):
     def get(self):
         characters = Character.query.all()
         if characters == None:
@@ -126,7 +82,7 @@ class Character(Resource):
             db.session.rollback()
             return make_response( { 'Error' : str(e) }, 422 )
 
-api.add_resource(Character, '/characters')
+api.add_resource(Characters, '/characters')
 
 
 
@@ -177,7 +133,7 @@ api.add_resource(CharacterById, '/characters/<int:id>')
 
 
 
-class Group(Resource):
+class Groups(Resource):
     def get(self):
         groups = Group.query.all()
         if groups == None:
@@ -200,7 +156,7 @@ class Group(Resource):
             db.session.rollback()
             return make_response( { 'Error' : str(e) }, 422 )
 
-api.add_resource(Group, '/groups/')
+api.add_resource(Groups, '/groups/')
 
 
 
@@ -251,7 +207,7 @@ api.add_resource(GroupById, '/groups/<int:id>')
 
 
 
-class CharacterGroup(Resource):
+class CharacterGroups(Resource):
     def get(self):
         character_groups = CharacterGroup.query.all()
         if character_groups == None:
@@ -274,7 +230,7 @@ class CharacterGroup(Resource):
             db.session.rollback()
             return make_response( { 'Error' : str(e) }, 422 )
 
-api.add_resource(CharacterGroup, '/CharacterGroups/')
+api.add_resource(CharacterGroups, '/charactergroups/')
 
 
 
@@ -284,7 +240,7 @@ api.add_resource(CharacterGroup, '/CharacterGroups/')
 
 class CharacterGroupById(Resource):
     def get(self, id):
-        character_group_by_id = CharacterGroupById.query.filter(CharacterGroupById.id == id).first()
+        character_group_by_id = CharacterGroup.query.filter(CharacterGroup.id == id).first()
         if character_group_by_id == None:
             return make_response( { 'error' : '404 CharacterGroupee not found' } )
         character_group_by_id_dict = character_group_by_id.to_dict()
@@ -292,7 +248,7 @@ class CharacterGroupById(Resource):
 
     def patch(self, id):
         try:
-            group_by_id = Group.query.filter(Group.id == id).first()
+            group_by_id = CharacterGroup.query.filter(CharacterGroup.id == id).first()
             if group_by_id == None:
                 return make_response( { 'error' : '404 Group not found' } ) 
             for attr in request.get_json():
@@ -317,7 +273,7 @@ class CharacterGroupById(Resource):
             db.session.rollback()
             return make_response( { "error" : str(e) }, 422 )
 
-api.add_resource(CharacterGroupById, '/CharacterGroups/<int:id>')
+api.add_resource(CharacterGroupById, '/charactergroups/<int:id>')
 
 
 
@@ -377,56 +333,6 @@ class AuthorizedSession(Resource):
             return make_response( { 'Unauthorized': 401 } )
 
 api.add_resource(AuthorizedSession, '/authorized')
-
-
-
-
-
-
-
-
-
-# class CharacterGroupByUser(Resource):
-#     def get(self, id):
-#         pass
-
-# class CharacterGroupByCharacter(Resource):
-#     def get(self, id):
-#         pass
-
-
-# Do we need the two above
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
