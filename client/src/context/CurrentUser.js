@@ -4,9 +4,9 @@ const CurrentUserContext = React.createContext()
 
 function CurrentUserProvider({children}) {
 
-    const [CurrentUser, setCurrentUser] = useState(null)
+    const [currentUser, setCurrentUser] = useState(null)
 
-    return <CurrentUserContext.Provider value={{ CurrentUser, setCurrentUser }}>{children}</CurrentUserContext.Provider>
+    return <CurrentUserContext.Provider value={{ currentUser, setCurrentUser }}>{children}</CurrentUserContext.Provider>
 }
 
 export {CurrentUserContext, CurrentUserProvider};

@@ -30,7 +30,7 @@ function PageLogin( ) {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        const newUser ={
+        const newUser = {
             username: username,
             email: email,
             password: password,

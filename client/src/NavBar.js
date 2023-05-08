@@ -1,9 +1,10 @@
-import React from "react";
+import React, {useContext} from "react";
 import {NavLink} from 'react-router-dom'
-
+import { UserAuthContext } from "./context/UserAuth";
 
 function NavBar() {
 
+const {userAuth, setUserAuth} = useContext(UserAuthContext)
 
     return(
         <nav className="navbar navbar-expand-sm navbar-dark bg-dark">
@@ -11,7 +12,12 @@ function NavBar() {
             <NavLink className="NavLink" to = "/MyCharacters">My Characters</NavLink>
             <NavLink className="NavLink" to = "/MyGroups">My Groups</NavLink>
             <NavLink className="NavLink" to = "/LFG">LookingForGroup</NavLink>
+            {userAuth?
+            <NavLink className="NavLink" to = "/Logout">Logout</NavLink>
+            :
             <NavLink className="NavLink" to = "/LoginCreate">Login</NavLink>
+
+            }
         </nav>
     )
 

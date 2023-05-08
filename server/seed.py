@@ -47,15 +47,15 @@ if __name__ == '__main__':
         )
 
         c3 = Character(
-            character_name = 'Brumbpo Tungus',
-            character_race = 'Dwarf (Hill)',
+            character_name = 'Charles Button',
+            character_race = 'Halfling',
             character_class = 'Paladin',
             user_id = 2
         )
 
         c4 = Character(
-            character_name = 'Brumbpo Tungus',
-            character_race = 'Dwarf (Hill)',
+            character_name = 'Falafel Falafel',
+            character_race = 'Elf (High)',
             character_class = 'Wizard',
             user_id = 2
         )
