@@ -81,7 +81,7 @@ class Character(db.Model, SerializerMixin):
     
     @validates('character_class')
     def validate_character_class(self, key, character_class):
-        if character_class not in [ 'Barbarian','Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard' ]:
+        if character_class not in [ 'Barbarian', 'Bard', 'Cleric', 'Druid', 'Fighter', 'Monk', 'Paladin', 'Ranger', 'Rogue', 'Sorcerer', 'Warlock', 'Wizard' ]:
             raise ValueError("Must provide a valid class for your character")
         return character_class
 

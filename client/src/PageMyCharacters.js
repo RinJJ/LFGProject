@@ -15,7 +15,7 @@ function PageMyCharacters() {
 
 
 // Map the data we need for the cards
-    const characterComponents = currentUser.characters.map(character => <CardsUserCharacters key={character.id} character_name={character.character_name} character_race={character.character_race} characters_class={character.character_class} />)
+    // const characterComponents = currentUser.characters.map(character => <CardsUserCharacters key={character.id} character_name={character.character_name} character_race={character.character_race} characters_class={character.character_class} />)
 
 // Setting state for hiding and showing New Character Form
     const [hideCharacterForm, setHideCharacterForm] = useState(true)
@@ -52,7 +52,7 @@ function PageMyCharacters() {
             </div>
             <div className='carddiv'>
                 <CardGroup className='grid-container'>
-                    {characterComponents}
+                    {/* {characterComponents} */}
                 </CardGroup>
             </div>
         </>

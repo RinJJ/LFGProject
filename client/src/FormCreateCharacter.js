@@ -1,8 +1,8 @@
 import React, {useState, useContext} from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
-import Dropdown from 'react-bootstrap/Dropdown'  
 import './index.css'
+
 
 
 function FormCreateCharacter( { handleHideCharacterForm } ) {
@@ -63,32 +63,42 @@ function FormCreateCharacter( { handleHideCharacterForm } ) {
     return (
         <Form className='addForm' onSubmit={handleSubmit}>
             <div>
-                <Form.Control onChange={handleCharacter_Name} type='text' name = 'character_name' placeholder='Name' />
-                <Form.Control onChange={handleCharacter_Race} type='text' name = 'character_race' placeholder='Race' />
-                <Dropdown.Button align="end" variant='primary' id='dropdown-autoclose-inside' autoClose='inside'>
-                    <Dropdown.Header>Choose Race</Dropdown.Header>
-                    <Dropdown.Divider/>
-                    <Dropdown.Item onChange={handleCharacter_Race}>DragonBorn</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Dwarf</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Dwarf (Hill)</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Dwarf (Mountain)</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Elf</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Elf (Drow)</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Elf (High)</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Elf Wood</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Gnome (Forest)</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Gnome</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Gnome (Rock)</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Half-Elf</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Half-Orc</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Halfling</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Halfling (Lightfoot)</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Halfling (Stout)</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Human</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Human (Variant)</Dropdown.Item>
-                    <Dropdown.Item onChange={handleCharacter_Race}>Tiefling</Dropdown.Item>
-                </Dropdown.Button>
-                <Form.Control onChange={handleCharacter_Class} type='text' name = 'character_class' placeholder= 'Class' />
+                <Form.Control onChange={handleCharacter_Name} type= 'text' name = 'character_name' placeholder='Name' />
+                <select onChange={handleCharacter_Race} type= 'text' name = 'character_race' placeholder='Race'>
+                    <option value='Dragonborn'>Dragonborn</option>
+                    <option value='Dwarf'>Dwarf</option>
+                    <option value='Dwarf (Hill)'>Dwarf (Hill)</option>
+                    <option value='Dwarf (Mountain)'>Dwarf (Mountain)</option>
+                    <option value='Elf'>Elf</option>
+                    <option value='Elf (Drow)'>Elf (Drow)</option>
+                    <option value='Elf (High)'>Elf (High)</option>
+                    <option value='Elf (Wood)'>Elf (Wood)</option>
+                    <option value='Gnome'>Gnome</option>
+                    <option value='Gnome (Forest)'>Gnome (Forest)</option>
+                    <option value='Gnome (Rock)'>Gnome (Rock)</option>
+                    <option value='Half-Elf'>Half-Elf</option>
+                    <option value='Half-Orc'>Half-Orc</option>
+                    <option value='Halfling'>Halfling</option>
+                    <option value='Halfling (Lightfoot)'>Halfling (Lightfoot)</option>
+                    <option value='Halfling (Stout)'>Halfling (Stout)</option>
+                    <option value='Human'>Human</option>
+                    <option value='Human (Variant)'>Human (Variant)</option>
+                    <option value='Tiefling'>Tiefling</option>
+                </select>
+                <select onChange={handleCharacter_Class} type= 'text' name= 'character_class' placeholder= 'Class' >
+                    <option value='Barbarian'>Barbarian</option>
+                    <option value='Bard'>Bard</option>
+                    <option value='Cleric'>Cleric</option>
+                    <option value='Druid'>Druid</option>
+                    <option value='Fighter'>Fighter</option>
+                    <option value='Monk'>Monk</option>
+                    <option value='Paladin'>Paladin</option>
+                    <option value='Ranger'>Ranger</option>
+                    <option value='Rogue'>Rogue</option>
+                    <option value='Sorcerer'>Sorcerer</option>
+                    <option value='Warlock'>Warlock</option>
+                    <option value='Wizard'>Wizard</option>
+                </select>
             </div>
             <Button className='add-button' type='submit'>Add Character</Button>
             <Button className='add-button' onClick={handleHideCharacterForm}>Close Form</Button>
