@@ -41,7 +41,7 @@ function ModalFormEditCharacter( { key } ) {
             character_class: character_class,
         }
 
-        fetch(`http://127.0.0.1:5555/character/${key}` , {
+        fetch(`/character/${key}` , {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ patchCharacter })

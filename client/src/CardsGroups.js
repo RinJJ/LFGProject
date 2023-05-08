@@ -7,8 +7,8 @@ function CardsGroups( { key, group_name, user_id } ) {
 
 
     const handleJoin = null
+    // join is a post to character_groups that will use a dropdown populated with MyCharacters
 
-    fetch('http://127.0.0.1:5555/groups')
 
 
     return (
@@ -17,7 +17,7 @@ function CardsGroups( { key, group_name, user_id } ) {
             <h5 class="card-title">{group_name}</h5>
             <h6 class="card-subtitle mb-2 text-muted">{user_id}</h6>
             <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <button class="btn btn-primary" onClick={handleJoin}>Leave</button>
+            <button class="btn btn-primary" onClick={handleJoin}>Join</button>
         </div>
         </div>
     );

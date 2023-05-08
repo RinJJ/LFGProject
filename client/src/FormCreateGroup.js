@@ -27,7 +27,7 @@ function FormCreateGroup( { handleHideGroupForm } ) {
 
         // insert adding the group to state here... actually probably better to do it in the .then of fetch
 
-        fetch('http://127.0.0.1:5555/groups', {
+        fetch('/groups', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(newGroup)

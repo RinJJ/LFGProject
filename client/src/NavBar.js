@@ -12,16 +12,11 @@ const {userAuth, setUserAuth} = useContext(UserAuthContext)
             <NavLink className="NavLink" to = "/MyCharacters">My Characters</NavLink>
             <NavLink className="NavLink" to = "/MyGroups">My Groups</NavLink>
             <NavLink className="NavLink" to = "/LFG">LookingForGroup</NavLink>
-            {userAuth?
+            <NavLink className="NavLink" to = "/Login">Login</NavLink>
+            <NavLink className="NavLink" to = "/CreateAcc">Create Account</NavLink>
             <NavLink className="NavLink" to = "/Logout">Logout</NavLink>
-            :
-            <NavLink className="NavLink" to = "/LoginCreate">Login</NavLink>
-
-            }
         </nav>
     )
-
-
 }
 
 export default NavBar;

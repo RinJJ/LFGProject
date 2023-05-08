@@ -301,15 +301,17 @@ api.add_resource(Signup, '/signup')
 
 class Login(Resource):
     def post(self):
-        try:
-            user = User.query.filter_by(id=request.get_json()['id']).first()
-            if user.authenticate(request.get_json()['password']):
-                session['id'] = user.id ###named this way due to how the tables are setup?
-                response = make_response(user.to_dict(), 200)
-                return response
-        except Exception as e:
-            db.session.rollback()  ## is this needed?
-            return make_response( { 'Error' : str(e) }, 401 )
+
+        user = User.query.filter_by(email=request.get_json()['email']).first() ## changed to email because it is the input in the form? Makes sense to me
+        if not user:
+            return make_response( {'Error': 'could not find user'}, 404)
+        if user.authenticate(request.get_json()['password']):
+            session['id'] = user.id ###named this way due to how the tables are setup?
+            response = make_response(user.to_dict(), 200)
+            return response
+        else:
+            response = make_response( {'Error': 'Incorrect Password'}, 401 )
+            return response
 
 api.add_resource(Login, '/login')
 
@@ -330,12 +332,15 @@ class AuthorizedSession(Resource):
             )
             return response
         else:
-            return make_response( { 'Unauthorized': 401 } )
+            return make_response( {'Unauthorized': 'goofed'} , 401 )
 
 api.add_resource(AuthorizedSession, '/authorized')
 
 
 
+## Characters by user
+
+## Groups by User
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

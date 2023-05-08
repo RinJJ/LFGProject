@@ -5,39 +5,40 @@ import { useHistory } from "react-router-dom"
 import { UserAuthContext } from "./context/UserAuth"
 import { CurrentUserContext } from "./context/CurrentUser"
 
-function PageLogin() {
 
-// Bringing in context
+
+
+function PageCreateAcc( ) {
+
     const { userAuth, setUserAuth } = useContext(UserAuthContext) // is this the session or the user? do i need a seperate context for "current user"
     const { currentUser, setCurrentUser } = useContext(CurrentUserContext)
 
-// UseHistory assignment
     const history = useHistory()
 
-// Setting state for form
 
+    const [ username, setUsername ] = useState('')
     const [ email, setEmail ] = useState('')
     const [ password, setPassword ] = useState('')
 
-// Handlers
+    const handleUsername = (e) => { setUsername(e.target.value) }
     const handleEmail = (e) => { setEmail(e.target.value) }
     const handlePassword = (e) => { setPassword(e.target.value) }
 
-// Handle Submit
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        const loginUser = {
+        const newUser = {
+            username: username,
             email: email,
             password: password,
         }
 
-        fetch('/login',{
+        fetch('/signup',{
                 method: 'POST',
                 headers:{
                     'Content-Type':'application/json'
                 },
-                body: JSON.stringify(loginUser)
+                body: JSON.stringify(newUser)
             })
             .then(r => {
                 if(r.ok) {
@@ -51,37 +52,42 @@ function PageLogin() {
                     r.text().then(console.warn)
                 }
             })
-        }
+            
+    }
 
 
 
+    // This handle logout with be a navbar onclick?? that replaces the Login Nav 
 
+    // const handleLogout = () => {
+    //     fetch('http://127.0.0.1:5555/Logout', {
+    //         method: 'DELETE',
+    //     }).then(r => {
+    //         if(r.ok){
+    //             setUserAuth(null)
+    //             history.push('/')
+    //         }
+    //     })
+    // }
 
-
-
-
-
-
-
-
-
-
-
+//TODO: How to have error messages from the form show 
 
     return (
         <>
-        <h2>Please Log in!</h2>
-        <Form className='login' onSubmit={handleSubmit}>
+        <h2>Please Sign up!</h2>
+        <Form className='login-create' onSubmit={handleSubmit}>
             <div>
                     <>
+                        <Form.Control onChange={handleUsername} type='text' name='Username' placeholder='Username'/>
                         <Form.Control onChange={handleEmail} type='text' name='Email' placeholder='Email'/>
                         <Form.Control onChange={handlePassword} type='text' name='Password' placeholder='Password'/>
                     </>
-                <Button type='submit'>Log In!</Button>
+
+                <Button type='submit'>'Sign Up!'</Button>
             </div>
         </Form>
         </>
     )
 }
 
-export default PageLogin;
+export default PageCreateAcc;
