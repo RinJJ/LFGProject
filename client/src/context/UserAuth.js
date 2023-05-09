@@ -9,7 +9,7 @@ function UserAuthProvider({children}) {
 
   useEffect(() => {
     async function checkAuthStatus() {
-      const response = await fetch('http://127.0.0.1:5555/authorized')
+      const response = await fetch('/authorized')
       const data = await response.json();
       setUserAuth(data.userAuth)
     }

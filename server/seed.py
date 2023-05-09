@@ -21,13 +21,13 @@ if __name__ == '__main__':
         u1 = User(
             username = 'Rin',
             email = 'jesse@email.com',
-            password_hash = 'yepwegottem',
+            password_hash = '123',
         )
 
         u2 = User(
             username = 'Zig',
             email = 'zag@email.com',
-            password_hash = 'stillgettingthem',
+            password_hash = '123',
         )
 
 

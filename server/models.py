@@ -18,7 +18,7 @@ class User(db.Model, SerializerMixin):
 # Do these rules only apply when fetching from this specific model or do the rules count as the other data is serialized through
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(40), nullable=False, unique=True)
-    email = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(100), nullable=False, unique=True)
     _password_hash = db.Column(db.String)
 
 
@@ -65,7 +65,7 @@ class Character(db.Model, SerializerMixin):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
 
     character_groups = db.relationship( 'CharacterGroup', backref='character' )
-    groups = association_proxy( 'character_groups', 'group' ) #TODO: I could not get this to work by Character.query.get(2).group or Character.query.get(2).groups
+    groups = association_proxy( 'character_groups', 'group' )
 
     @validates('character_name')
     def validate_character_name(self, key, character_name):
@@ -93,11 +93,12 @@ class Character(db.Model, SerializerMixin):
 class CharacterGroup(db.Model, SerializerMixin):
     __tablename__ = 'character_groups'
 
-    serialize_rules = ( '-character.user._password_hash', '-character.user.characters', '-character.user.groups', '-character.group', '-character.character_groups', '-group', '-character_groups' ) #TODO
+    serialize_rules = ( '-character.user._password_hash', '-character.user.characters', '-character.user.groups', '-character.groups', '-character.character_groups', '-character_groups' ) #TODO
 
     id = db.Column(db.Integer, primary_key=True)
     character_id = db.Column(db.Integer, db.ForeignKey('characters.id'), nullable=False)
     group_id = db.Column(db.Integer, db.ForeignKey('groups.id'), nullable=False)
+
 
 
 

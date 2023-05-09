@@ -73,6 +73,7 @@ class Characters(Resource):
                 character_name = data['character_name'],
                 character_race = data['character_race'],
                 character_class = data['character_class'],
+                user_id = data['user_id'],
             )
             db.session.add( new_character )
             db.session.commit()
@@ -290,7 +291,7 @@ class Signup(Resource):
             new_user.password_hash = data['password']
             db.session.add( new_user )
             db.session.commit()
-            session['id'] = new_user.id  ### if it doesnt work check ix auth video #1 @17:00 id is what i called id in models
+            session['user_id'] = new_user.id  ### if it doesnt work check ix auth video #1 @17:00 id is what i called id in models
             new_user_dict = new_user.to_dict()
             return make_response(new_user_dict, 201)
         except Exception as e:
@@ -306,7 +307,7 @@ class Login(Resource):
         if not user:
             return make_response( {'Error': 'could not find user'}, 404)
         if user.authenticate(request.get_json()['password']):
-            session['id'] = user.id ###named this way due to how the tables are setup?
+            session['user_id'] = user.id ###named this way due to how the tables are setup?
             response = make_response(user.to_dict(), 200)
             return response
         else:
@@ -317,15 +318,16 @@ api.add_resource(Login, '/login')
 
 class Logout(Resource):
     def delete(self):
-        session['id'] = None
-        response = make_response('',204)
-        return response
+        session['user_id'] = None
+        if session['user_id'] == None:
+            response = make_response('', 204)
+            return response
 
-api.add_resource(Logout, '/Logout')
+api.add_resource(Logout, '/logout')
 
 class AuthorizedSession(Resource):
     def get(self):
-        user = User.query.filter_by(id=session.get('id')).first()
+        user = User.query.filter_by(user_id=session.get('user_id')).first()
         if user:
             response = make_response(
                 user.to_dict(), 200
@@ -339,8 +341,30 @@ api.add_resource(AuthorizedSession, '/authorized')
 
 
 ## Characters by user
+class CharactersByUserId(Resource):
+    def get(self, id):
+        characters = Character.query.all()
+        characters_by_user_id_dict = [c.to_dict() for c in characters if c.user_id == id]
+        return make_response( characters_by_user_id_dict, 200 )
+
+api.add_resource(CharactersByUserId, '/charactersbyuser/<int:id>')
 
 ## Groups by User
+class GroupsOwnedByUserId(Resource):
+    def get(self, id):
+        groups = Group.query.all()
+        groups_owned_by_user_id_dict = [g.to_dict for g in groups if g.user_id == id]
+
+api.add_resource(GroupsOwnedByUserId, '/groupsownedbyuser/<int:id>')
+
+# class GroupsUserIdIsIn(Resource):
+
+#     def get(self, id):
+#         pass
+#         groups = Group.query.all()
+#         groups_user_id_is_in_dict = [g.to_dict for g in groups if g.]
+
+# api.add_resource(GroupsUserIdIsIn, '/groupsuserisin/<int:id>')
 
 if __name__ == '__main__':
     app.run(port=5555, debug=True)

@@ -12,13 +12,15 @@ function PageLogout() {
     const {currentUser, setCurrentUser} = useContext(CurrentUserContext)
 
     const handleLogout = () => {
-        fetch('/Logout', {
+        fetch('/logout', {
             method: 'DELETE',
         }).then(r => {
             if(r.ok){
                 setUserAuth(null)
                 setCurrentUser(null)
                 history.push('/')
+                console.log(userAuth)
+                console.log(currentUser)
             }
         })
     }

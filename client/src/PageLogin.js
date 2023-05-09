@@ -45,7 +45,7 @@ function PageLogin() {
                         setUserAuth(user)
                         setCurrentUser(user)
                         history.push('/')
-                        console.log(user)
+                        console.log(currentUser)
                     })
                 }else {
                     r.text().then(console.warn)
