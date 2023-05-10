@@ -100,12 +100,13 @@ class CharacterById(Resource):
         return make_response( character_by_id_dict, 200 )
 
     def patch(self, id):
+        character_by_id = Character.query.filter(Character.id == id).first()
+        if character_by_id == None:
+            return make_response( { 'error' : '404 Character not found' } ) 
         try:
-            character_by_id = Character.query.filter(Character.id == id).first()
-            if character_by_id == None:
-                return make_response( { 'error' : '404 Character not found' } ) 
             for attr in request.get_json():
                 setattr( character_by_id, attr, request.get_json()[attr] )
+
             db.session.add( character_by_id )
             db.session.commit()
             character_by_id_dict = character_by_id.to_dict()
@@ -327,7 +328,7 @@ api.add_resource(Logout, '/logout')
 
 class AuthorizedSession(Resource):
     def get(self):
-        user = User.query.filter_by(user_id=session.get('user_id')).first()
+        user = User.query.filter_by(id = session.get('user_id')).first()
         if user:
             response = make_response(
                 user.to_dict(), 200

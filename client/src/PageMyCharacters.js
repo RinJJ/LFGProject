@@ -10,7 +10,7 @@ function PageMyCharacters() {
 
     const { currentUser } = useContext(CurrentUserContext)
 
-    const currentUserId = currentUser.id
+
 
     const [charactersArray, setCharactersArray] = useState()
 
@@ -22,15 +22,27 @@ function PageMyCharacters() {
 // fetch the data we need for the cards User.characters
 
     useEffect(() => {
-        fetch(`/charactersbyuser/${currentUserId}`)
-        .then(r=> r.json())
-        .then(setCharactersArray)
-    }, [])
+        if (currentUser) {
+            fetch(`/charactersbyuser/${currentUser.id}`)
+            .then(r=> r.json())
+            .then(setCharactersArray)
+        }
+    }, [currentUser])
 
+    const deleteCharacter = (doomedId) => {
+        setCharactersArray(charactersArray.filter(character => character.id !== doomedId))
+    }
+
+    const editCharacter = (patchedCharacter) => {
+        const newArray = [...charactersArray]
+        const index = newArray.findIndex( e => e.id == patchedCharacter.id )
+        newArray[ index ] = patchedCharacter
+        setCharactersArray(newArray)
+    }
 
 
 // Map the data we need for the cards
-    const characterComponents = charactersArray?.map(character => <CardsUserCharacters key={character.id} character_name={character.character_name} character_race={character.character_race} character_class={character.character_class} />)
+    const characterComponents = charactersArray?.map(character => <CardsUserCharacters key={character.id} character_id={character.id} character_name={character.character_name} character_race={character.character_race} character_class={character.character_class} deleteCharacter={deleteCharacter} editCharacter={editCharacter}/>)
 
 // Setting state for hiding and showing New Character Form
     const [hideCharacterForm, setHideCharacterForm] = useState(true)

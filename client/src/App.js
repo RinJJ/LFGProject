@@ -19,21 +19,21 @@ import { CurrentUserContext, CurrentUserProvider } from './context/CurrentUser';
 function App() {
 
 
-  // const {currentUser, setCurrentUser} = useContext(CurrentUserContext)
+  const {currentUser, setCurrentUser} = useContext(CurrentUserContext)
 
 //Use Effects?
 
-  // useEffect(() => {
-  //   fetch('/authorized')
-  //   .then(r => {
-  //     if(r.ok) {
-  //       r.json().then((user) => {
-  //         console.log(user)
-  //         setCurrentUser(user)
-  //       })
-  //     }
-  //   })
-  // }, [])
+  useEffect(() => {
+    fetch('/authorized')
+    .then(r => {
+      if(r.ok) {
+        r.json().then((user) => {
+          console.log(user)
+          setCurrentUser(user)
+        })
+      }
+    })
+  }, [])
 
 // Do I need my Providers of user in index.js? So I can use conditional rendering here for the "my" and LFG routes
 

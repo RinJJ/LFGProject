@@ -108,7 +108,7 @@ class CharacterGroup(db.Model, SerializerMixin):
 class Group(db.Model, SerializerMixin):
     __tablename__ = 'groups'
 
-    serialize_rules = ( '-characters.group', '-character_groups.group', '-character_groups.character.user', '-character_groups.character.groups', '-character_groups.character.character_groups', '-user' ) #TODO
+    serialize_rules = ( '-characters.group', '-character_groups.group', '-character_groups.character.user', '-character_groups.character.groups', '-character_groups.character.character_groups', '-user', 'characters', '-characters.character_groups', '-characters.groups' ) #TODO
 
     id = db.Column(db.Integer, primary_key=True)
     group_name = db.Column(db.String(75), nullable=False)

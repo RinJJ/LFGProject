@@ -1,12 +1,13 @@
 import React, {useState, useContext} from 'react'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
+import { CurrentUserContext } from './context/CurrentUser'
 import './index.css'
 
 
-function FormCreateGroup( { handleHideGroupForm } ) {
+function FormCreateGroup( { handleHideGroupForm, addGroup } ) {
 
-
+    const {currentUser} = useContext(CurrentUserContext)
 
 
 
@@ -22,6 +23,7 @@ function FormCreateGroup( { handleHideGroupForm } ) {
 
         const newGroup = {
             group_name: group_name,
+            user_id: currentUser.id,
 
         }
 
@@ -34,6 +36,9 @@ function FormCreateGroup( { handleHideGroupForm } ) {
         })
         .then(r => {
             if(r.ok){
+                r.json().then(thisgroup => {
+                    addGroup(thisgroup);
+                })
                 setGroup_Name('')
                 handleHideGroupForm()
             }

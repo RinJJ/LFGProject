@@ -11,12 +11,24 @@ function PageMyGroups() {
 
     const handleHideGroupForm = () => { setHideGroupForm(hideGroupForm => !hideGroupForm) }
 
-
     function FormButton({handleHideGroupForm}) {
         return(
             <button onClick={handleHideGroupForm} className="hideFormButton">Add a Group</button>
         )
     }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     return (

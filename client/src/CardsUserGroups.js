@@ -1,4 +1,9 @@
 import React from "react";
+import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
+
+
+
 
 function CardsUserGroups( { key, group_name, user_id } ) {
 
@@ -13,7 +18,7 @@ function CardsUserGroups( { key, group_name, user_id } ) {
 
 
     return (
-        <div class="card" style="width: 18rem;">
+        <Card style={{ width: '14rem' }} className='bg-dark border-light rounded'>
         <div class="card-body">
             <h5 class="card-title">{group_name}</h5>
             <h6 class="card-subtitle mb-2 text-muted">{user_id}</h6>
@@ -21,7 +26,7 @@ function CardsUserGroups( { key, group_name, user_id } ) {
             <button class="btn btn-primary" onClick={handleDelete}>Delete</button>
             <button class="btn btn-primary" onClick={handleLeave}>Leave</button>
         </div>
-        </div>
+        </Card>
     )
 }
 

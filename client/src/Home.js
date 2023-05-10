@@ -4,7 +4,7 @@ function Home() {
 
 
 
-  return <div>This is where we want to have some type of landing page</div>;
+  return <div className='home-welcome'>Welcome to my extremely poorly put together project based around helping people find DnD groups</div>;
 }
 
 export default Home;

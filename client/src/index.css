@@ -36,3 +36,9 @@ nav {
 .App {
     text-align: center;
 }
+.home-welcome {
+
+    font-size: calc(10px + 2vmin);
+    padding-top: 300px;
+    padding-left: 30px;
+}
