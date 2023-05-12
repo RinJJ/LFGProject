@@ -17,10 +17,14 @@ function ModalDeleteCharacter( { character_id, deleteCharacter } ) {
 
 
     const handleDelete = () => {
-        deleteCharacter(character_id)
+
 
         fetch(`/characters/${character_id}`,{
         method: 'DELETE'
+        }).then(r => {
+            if(r.ok){
+                deleteCharacter(character_id)
+            }
         })
     }
 

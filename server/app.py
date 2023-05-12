@@ -115,14 +115,14 @@ class CharacterById(Resource):
             db.session.rollback()
             return make_response( { "error" : str(e) }, 422 )
         
-    def delete(self,id):
+    def delete(self, id):
+        character_by_id = Character.query.filter(Character.id == id).first()
+        if character_by_id == None:
+            return make_response( { 'error' : '404 Character not found' }, 404 ) 
         try:
-            character_by_id = Character.query.filter(Character.id == id).first()
-            if character_by_id == None:
-                return make_response( { 'error' : '404 Character not found' } ) 
             db.session.delete(character_by_id)
             db.session.commit()
-            return make_response( {} )
+            return make_response( '' ,200 )
         except Exception as e:
             db.session.rollback()
             return make_response( { "error" : str(e) }, 422 )

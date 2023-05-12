@@ -55,7 +55,7 @@ class User(db.Model, SerializerMixin):
 class Character(db.Model, SerializerMixin):
     __tablename__ = 'characters'
 
-    serialize_rules = ( '-character_groups.character', '-user._password_hash', '-user.characters', '-user.groups', 'groups' ) #TODO
+    serialize_rules = ( '-character_groups.character', '-user._password_hash', '-user.characters', '-user.groups', '-groups', '-character_groups.group' ) #TODO
 
     id = db.Column(db.Integer, primary_key=True)
     character_name = db.Column(db.String, nullable=False)
@@ -64,7 +64,7 @@ class Character(db.Model, SerializerMixin):
 
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable = False)
 
-    character_groups = db.relationship( 'CharacterGroup', backref='character' )
+    character_groups = db.relationship( 'CharacterGroup', backref='character', cascade='all, delete-orphan' )
     groups = association_proxy( 'character_groups', 'group' )
 
     @validates('character_name')

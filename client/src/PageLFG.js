@@ -3,6 +3,7 @@ import CardsGroups from './CardsGroups'
 import FormCreateGroup from './FormCreateGroup'
 import CardGroup from 'react-bootstrap/CardGroup'
 import { CurrentUserContext } from "./context/CurrentUser"
+import {v4} from 'uuid'
 
 function PageLFG() {
 
@@ -23,9 +24,9 @@ function PageLFG() {
     
     
     
-    console.log('This is newCharacterGroup', newCharacterGroup)
+    // console.log('This is newCharacterGroup', newCharacterGroup)
 
-    console.log("this is groupsarray", groupsArray)
+    // console.log("this is groupsarray", groupsArray)
 
     useEffect(() => {
         fetch(`/groups/`)
@@ -43,7 +44,7 @@ function PageLFG() {
         }   
     }, [currentUser])
 
-    const groupComponents = groupsArray?.map(group => <CardsGroups key={group.id} {...group} charactersByUserArray={charactersByUserArray} groupsArray={groupsArray} setGroupsArray={setGroupsArray} newCharacterGroup= {newCharacterGroup} setNewCharacterGroup={setNewCharacterGroup} />)
+    const groupComponents = groupsArray?.map(group => <CardsGroups  key= {v4()} {...group} charactersByUserArray={charactersByUserArray} groupsArray={groupsArray} setGroupsArray={setGroupsArray} newCharacterGroup= {newCharacterGroup} setNewCharacterGroup={setNewCharacterGroup} />)
 
     const [hideGroupForm, setHideGroupForm] = useState(true)
 

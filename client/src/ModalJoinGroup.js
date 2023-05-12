@@ -4,6 +4,7 @@ import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import './index.css'
+import {v4} from 'uuid'
 
 function ModalJoinGroup( {id, group_name, charactersByUserArray, groupsArray, setGroupsArray  } ) {
 
@@ -21,18 +22,18 @@ function ModalJoinGroup( {id, group_name, charactersByUserArray, groupsArray, se
         setCharacter_id(e.target.value)
         // console.log("This is Character ID", e.target.value)
     }
-    console.log(groupsArray[0].character_groups)
+    // console.log(groupsArray[0].character_groups)
 
     const handleJoin = (e) => {
         e.preventDefault();
 
         const index = (id -1)
-        console.log('this is groupsArray[index].character_groups', groupsArray[index].character_groups )
+        // console.log('this is groupsArray[index].character_groups', groupsArray[index].character_groups )
         const newCharacterGroup = {
             character_id: character_id,
             group_id: id
         }
-        console.log(newCharacterGroup);
+        // console.log(newCharacterGroup);
         fetch('/charactergroups', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -57,7 +58,7 @@ function ModalJoinGroup( {id, group_name, charactersByUserArray, groupsArray, se
                     <option value="">---Select A Character---</option>
                     {charactersByUserArray.map(cObj => {
                         return (
-                            <option value={cObj.id}> {cObj.character_name} </option>
+                            <option value={cObj.id} key={v4()}> {cObj.character_name} </option>
                         )
                     })
                     }

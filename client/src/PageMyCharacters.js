@@ -3,6 +3,7 @@ import CardsUserCharacters from './CardsUserCharacters'
 import FormCreateCharacter from './FormCreateCharacter'
 import CardGroup from 'react-bootstrap/CardGroup'
 import { CurrentUserContext } from "./context/CurrentUser"
+import {v4} from 'uuid'
 
 
 function PageMyCharacters() {
@@ -40,9 +41,9 @@ function PageMyCharacters() {
         setCharactersArray(newArray)
     }
 
-
+console.log(charactersArray)
 // Map the data we need for the cards
-    const characterComponents = charactersArray?.map(character => <CardsUserCharacters key={character.id} character_id={character.id} character_name={character.character_name} character_race={character.character_race} character_class={character.character_class} deleteCharacter={deleteCharacter} editCharacter={editCharacter}/>)
+    const characterComponents = charactersArray?.map(character => <CardsUserCharacters key={v4()} character_id={character.id} character_name={character.character_name} character_race={character.character_race} character_class={character.character_class} deleteCharacter={deleteCharacter} editCharacter={editCharacter}/>)
 
 // Setting state for hiding and showing New Character Form
     const [hideCharacterForm, setHideCharacterForm] = useState(true)
