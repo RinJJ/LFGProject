@@ -5,7 +5,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import './index.css'
 
-function ModalJoinGroup( {id, group_name, charactersByUserArray  } ) {
+function ModalJoinGroup( {id, group_name, charactersByUserArray, groupsArray, setGroupsArray  } ) {
 
     const history = useHistory()
     const [show, setShow] = useState()
@@ -13,18 +13,21 @@ function ModalJoinGroup( {id, group_name, charactersByUserArray  } ) {
 
     const handleShow = () => {setShow(show => !show)}
 
-    console.log("this group ID" ,id)
+    // console.log("this group ID" ,id)
 
     const [character_id, setCharacter_id] = useState()
 
     const handleCharacter = (e) => {
         setCharacter_id(e.target.value)
-        console.log("This is Character ID", e.target.value)
+        // console.log("This is Character ID", e.target.value)
     }
+    console.log(groupsArray[0].character_groups)
 
     const handleJoin = (e) => {
         e.preventDefault();
 
+        const index = (id -1)
+        console.log('this is groupsArray[index].character_groups', groupsArray[index].character_groups )
         const newCharacterGroup = {
             character_id: character_id,
             group_id: id
@@ -37,10 +40,11 @@ function ModalJoinGroup( {id, group_name, charactersByUserArray  } ) {
         })
         .then(r => {
             if(r.ok){
-                //insert statechange for group from 2 levels up
-            }
-        })
-
+                r.json().then(thisGroup => {
+                    setGroupsArray(thisGroup)
+                })}
+            })
+        
     }
 
 

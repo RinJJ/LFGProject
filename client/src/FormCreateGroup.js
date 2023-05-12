@@ -24,7 +24,6 @@ function FormCreateGroup( { handleHideGroupForm, addGroup } ) {
         const newGroup = {
             group_name: group_name,
             user_id: currentUser.id,
-
         }
 
         // insert adding the group to state here... actually probably better to do it in the .then of fetch

@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form'
 import './index.css'
 
 
-function ModalFormEditCharacter( { key, character_id, editCharacter, deleteCharacter } ) {
+function ModalFormEditCharacter( { key, character_id, editCharacter, deleteCharacter,  } ) {
 // how do i bring down the previous inputs of character name,race,class
     //I should be able to edit the character by directly editing ty the id in /charactersbyid
 

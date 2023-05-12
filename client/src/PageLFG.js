@@ -12,27 +12,38 @@ function PageLFG() {
 
     const [groupsArray, setGroupsArray] = useState()
     const [charactersByUserArray, setCharactersByUserArray] = useState([])
-
+    const [newCharacterGroup, setNewCharacterGroup] = useState([
+        {characters: []}
+    ])
+    
+    
     const addGroup = (newGroupObj) => {
         setGroupsArray([...groupsArray, newGroupObj])
     }
+    
+    
+    
+    console.log('This is newCharacterGroup', newCharacterGroup)
+
     console.log("this is groupsarray", groupsArray)
 
     useEffect(() => {
         fetch(`/groups/`)
         .then(r=> r.json())
-        .then(setGroupsArray)
+        .then(setGroupsArray, setNewCharacterGroup, )
     }, [])
 
     useEffect(() => {
         if(currentUser) {
             fetch(`/charactersbyuser/${currentUser.id}`)
             .then(r=> r.json())
-            .then(setCharactersByUserArray)
+            .then(
+                setCharactersByUserArray
+                )
         }   
     }, [currentUser])
 
-    const groupComponents = groupsArray?.map(group => <CardsGroups key={group.id} {...group} charactersByUserArray={charactersByUserArray} />)
+    const groupComponents = groupsArray?.map(group => <CardsGroups key={group.id} {...group} charactersByUserArray={charactersByUserArray} groupsArray={groupsArray} setGroupsArray={setGroupsArray} newCharacterGroup= {newCharacterGroup} setNewCharacterGroup={setNewCharacterGroup} />)
 
     const [hideGroupForm, setHideGroupForm] = useState(true)
 

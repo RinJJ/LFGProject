@@ -63,7 +63,7 @@ if __name__ == '__main__':
 
 
         g1 = Group(
-        group_name = 'Ten Dads',
+        group_name = 'Just a few Friends playing DnD',
         user_id = 1,
         )
 

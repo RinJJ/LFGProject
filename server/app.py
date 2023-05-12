@@ -226,8 +226,12 @@ class CharacterGroups(Resource):
             )
             db.session.add( new_character_group )
             db.session.commit()
-            new_character_group_dict = new_character_group.to_dict()
-            return make_response(new_character_group_dict, 200)
+            
+            groups = Group.query.all()
+            if groups == None:
+                return make_response( { 'error' : '404: Groups Not Found' } )
+            groups_dict = [group.to_dict() for group in groups]
+            return make_response( groups_dict, 200 )
         except Exception as e:
             db.session.rollback()
             return make_response( { 'Error' : str(e) }, 422 )
