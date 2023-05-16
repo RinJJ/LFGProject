@@ -41,7 +41,7 @@ function PageMyCharacters() {
         setCharactersArray(newArray)
     }
 
-console.log(charactersArray)
+// console.log(charactersArray)
 // Map the data we need for the cards
     const characterComponents = charactersArray?.map(character => <CardsUserCharacters key={v4()} character_id={character.id} character_name={character.character_name} character_race={character.character_race} character_class={character.character_class} deleteCharacter={deleteCharacter} editCharacter={editCharacter}/>)
 

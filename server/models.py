@@ -105,6 +105,11 @@ class CharacterGroup(db.Model, SerializerMixin):
 
 
 
+
+
+
+
+
 class Group(db.Model, SerializerMixin):
     __tablename__ = 'groups'
 
