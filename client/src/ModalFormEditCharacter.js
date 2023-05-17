@@ -6,7 +6,7 @@ import Form from 'react-bootstrap/Form'
 import './index.css'
 
 
-function ModalFormEditCharacter( { key, character_id, editCharacter, deleteCharacter,  } ) {
+function ModalFormEditCharacter( { key, character_id, editCharacter, currentCharacter_name  } ) {
 // how do i bring down the previous inputs of character name,race,class
     //I should be able to edit the character by directly editing ty the id in /charactersbyid
 
@@ -67,48 +67,66 @@ function ModalFormEditCharacter( { key, character_id, editCharacter, deleteChara
                     <Modal.Title>Edit Character {character_id}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                <Form className='addForm' onSubmit={handleSubmit}>
-                    <div>
-                        <Form.Control onChange={handleCharacter_Name} type= 'text' name = 'character_name' />
-                        <select onChange={handleCharacter_Race} name = 'character_race'>
-                            <option value=''>---Select Race---</option>
-                            <option value='Dragonborn'>Dragonborn</option>
-                            <option value='Dwarf'>Dwarf</option>
-                            <option value='Dwarf (Hill)'>Dwarf (Hill)</option>
-                            <option value='Dwarf (Mountain)'>Dwarf (Mountain)</option>
-                            <option value='Elf'>Elf</option>
-                            <option value='Elf (Drow)'>Elf (Drow)</option>
-                            <option value='Elf (High)'>Elf (High)</option>
-                            <option value='Elf (Wood)'>Elf (Wood)</option>
-                            <option value='Gnome'>Gnome</option>
-                            <option value='Gnome (Forest)'>Gnome (Forest)</option>
-                            <option value='Gnome (Rock)'>Gnome (Rock)</option>
-                            <option value='Half-Elf'>Half-Elf</option>
-                            <option value='Half-Orc'>Half-Orc</option>
-                            <option value='Halfling'>Halfling</option>
-                            <option value='Halfling (Lightfoot)'>Halfling (Lightfoot)</option>
-                            <option value='Halfling (Stout)'>Halfling (Stout)</option>
-                            <option value='Human'>Human</option>
-                            <option value='Human (Variant)'>Human (Variant)</option>
-                            <option value='Tiefling'>Tiefling</option>
-                        </select>
-                        <select onChange={handleCharacter_Class} name= 'character_class' >
-                            <option value=''>---Select Class---</option>
-                            <option value='Barbarian'>Barbarian</option>
-                            <option value='Bard'>Bard</option>
-                            <option value='Cleric'>Cleric</option>
-                            <option value='Druid'>Druid</option>
-                            <option value='Fighter'>Fighter</option>
-                            <option value='Monk'>Monk</option>
-                            <option value='Paladin'>Paladin</option>
-                            <option value='Ranger'>Ranger</option>
-                            <option value='Rogue'>Rogue</option>
-                            <option value='Sorcerer'>Sorcerer</option>
-                            <option value='Warlock'>Warlock</option>
-                            <option value='Wizard'>Wizard</option>
-                        </select>
-                    </div>
-                </Form>
+                <Form.Group>
+                <Form.Control
+                onChange={handleCharacter_Name}
+                type="text"
+                name="character_name"
+                placeholder={currentCharacter_name}
+                style={{ width: '200px', margin: '0 auto' }}
+                />
+            </Form.Group>
+            <Form.Group>
+                <Form.Control
+                as="select"
+                onChange={handleCharacter_Race}
+                name="character_race"
+                style={{ width: '200px', margin: '0 auto' }}
+                >
+                    <option value=''>---Select Race---</option>
+                    <option value='Dragonborn'>Dragonborn</option>
+                    <option value='Dwarf'>Dwarf</option>
+                    <option value='Dwarf (Hill)'>Dwarf (Hill)</option>
+                    <option value='Dwarf (Mountain)'>Dwarf (Mountain)</option>
+                    <option value='Elf'>Elf</option>
+                    <option value='Elf (Drow)'>Elf (Drow)</option>
+                    <option value='Elf (High)'>Elf (High)</option>
+                    <option value='Elf (Wood)'>Elf (Wood)</option>
+                    <option value='Gnome'>Gnome</option>
+                    <option value='Gnome (Forest)'>Gnome (Forest)</option>
+                    <option value='Gnome (Rock)'>Gnome (Rock)</option>
+                    <option value='Half-Elf'>Half-Elf</option>
+                    <option value='Half-Orc'>Half-Orc</option>
+                    <option value='Halfling'>Halfling</option>
+                    <option value='Halfling (Lightfoot)'>Halfling (Lightfoot)</option>
+                    <option value='Halfling (Stout)'>Halfling (Stout)</option>
+                    <option value='Human'>Human</option>
+                    <option value='Human (Variant)'>Human (Variant)</option>
+                    <option value='Tiefling'>Tiefling</option>
+                </Form.Control>
+            </Form.Group>
+            <Form.Group>
+                <Form.Control
+                as="select"
+                onChange={handleCharacter_Class}
+                name="character_class"
+                style={{ width: '200px', margin: '0 auto' }}
+                >
+                    <option value=''>---Select Class---</option>
+                    <option value='Barbarian'>Barbarian</option>
+                    <option value='Bard'>Bard</option>
+                    <option value='Cleric'>Cleric</option>
+                    <option value='Druid'>Druid</option>
+                    <option value='Fighter'>Fighter</option>
+                    <option value='Monk'>Monk</option>
+                    <option value='Paladin'>Paladin</option>
+                    <option value='Ranger'>Ranger</option>
+                    <option value='Rogue'>Rogue</option>
+                    <option value='Sorcerer'>Sorcerer</option>
+                    <option value='Warlock'>Warlock</option>
+                    <option value='Wizard'>Wizard</option>
+                </Form.Control>
+            </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleSubmit}>Save</Button>

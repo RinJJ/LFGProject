@@ -23,7 +23,7 @@ const {UserAuth} = useContext(UserAuthContext)
     const handleCharacter_Name = (e) => { setCharacter_Name(e.target.value) }
     const handleCharacter_Race = (e) => { setCharacter_Race(e.target.value) }
     const handleCharacter_Class = (e) => { setCharacter_Class(e.target.value) }
-    const handleCurrentUser = (e) => console.log(currentUser.id)
+
 
 
 // Handle Submit and Patch request? I should also change state of show at the end of fetch.
@@ -68,8 +68,22 @@ const {UserAuth} = useContext(UserAuthContext)
     return (
         <Form className='addForm' onSubmit={handleSubmit}>
             <div>
-                <Form.Control onChange={handleCharacter_Name} type= 'text' name = 'character_name' />
-                <select onChange={handleCharacter_Race} name = 'character_race'>
+            <Form.Group>
+                <Form.Control
+                onChange={handleCharacter_Name}
+                type="text"
+                name="character_name"
+                placeholder={"Insert Character Name"}
+                style={{ width: '200px', margin: '0 auto' }}
+                />
+            </Form.Group>
+            <Form.Group>
+                <Form.Control
+                as="select"
+                onChange={handleCharacter_Race}
+                name="character_race"
+                style={{ width: '200px', margin: '0 auto' }}
+                >
                     <option value=''>---Select Race---</option>
                     <option value='Dragonborn'>Dragonborn</option>
                     <option value='Dwarf'>Dwarf</option>
@@ -90,8 +104,15 @@ const {UserAuth} = useContext(UserAuthContext)
                     <option value='Human'>Human</option>
                     <option value='Human (Variant)'>Human (Variant)</option>
                     <option value='Tiefling'>Tiefling</option>
-                </select>
-                <select onChange={handleCharacter_Class} name= 'character_class' >
+                </Form.Control>
+            </Form.Group>
+            <Form.Group>
+                <Form.Control
+                as="select"
+                onChange={handleCharacter_Class}
+                name="character_class"
+                style={{ width: '200px', margin: '0 auto' }}
+                >
                     <option value=''>---Select Class---</option>
                     <option value='Barbarian'>Barbarian</option>
                     <option value='Bard'>Bard</option>
@@ -105,11 +126,14 @@ const {UserAuth} = useContext(UserAuthContext)
                     <option value='Sorcerer'>Sorcerer</option>
                     <option value='Warlock'>Warlock</option>
                     <option value='Wizard'>Wizard</option>
-                </select>
+                </Form.Control>
+            </Form.Group>
+
             </div>
-            <Button className='add-button' type='submit'>Add Character</Button>
-            <Button className='add-button' onClick={handleHideCharacterForm}>Close Form</Button>
-            <Button className='add-button' onClick={handleCurrentUser}>What is current User ID</Button>
+            <div className="d-flex justify-content-center mt-3">
+            <Button className="mx-2" type='submit'>Add Character</Button>
+            <Button className="mx-2" onClick={handleHideCharacterForm}>Close Form</Button>
+            </div>
         </Form>
 
 

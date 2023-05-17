@@ -10,6 +10,7 @@ import NavBar from './NavBar';
 import PageLogin from './PageLogin';
 import PageLogout from './PageLogout';
 import PageCreateAcc from './PageCreateAcc';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 import { UserAuthProvider } from './context/UserAuth';
 import { CurrentUserContext, CurrentUserProvider } from './context/CurrentUser';
@@ -42,7 +43,7 @@ function App() {
     <>
       <header>
         <NavBar/>
-        <h2>nope still not showing</h2>
+        
       </header>
       <div>
         <Switch>
