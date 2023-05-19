@@ -16,7 +16,7 @@ function CardsUserCharacters( { character_id, character_name, character_race, ch
                         <h5 className="card-subtitle mb-2 text-muted">{character_race}</h5>
                         <h5 className="card-subtitle mb-2 text-muted">{character_class}</h5>
                         <ModalFormEditCharacter character_id={character_id} currentCharacter_name={character_name} character_race={character_race} character_class={character_class} editCharacter={editCharacter} deleteCharacter={deleteCharacter} />
-                        <ModalDeleteCharacter character_id={character_id} deleteCharacter={deleteCharacter} />
+                        <ModalDeleteCharacter character_id={character_id} deleteCharacter={deleteCharacter} currentCharacter_name={character_name} />
                 </Card.Body>
             </Card>
         </div>

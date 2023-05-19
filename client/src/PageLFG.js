@@ -2,6 +2,7 @@ import React, {useState, useContext, useEffect} from 'react'
 import CardsGroups from './CardsGroups'
 import FormCreateGroup from './FormCreateGroup'
 import CardGroup from 'react-bootstrap/CardGroup'
+import Button from 'react-bootstrap/esm/Button'
 import { CurrentUserContext } from "./context/CurrentUser"
 import {v4} from 'uuid'
 
@@ -11,40 +12,45 @@ function PageLFG() {
 
 
 
-    const [groupsArray, setGroupsArray] = useState()
+    const [groupsArray, setGroupsArray] = useState([])
     const [charactersByUserArray, setCharactersByUserArray] = useState([])
-    const [newCharacterGroup, setNewCharacterGroup] = useState([
-        {characters: []}
-    ])
     
     
     const addGroup = (newGroupObj) => {
         setGroupsArray([...groupsArray, newGroupObj])
     }
     
-    
-    
-    // console.log('This is newCharacterGroup', newCharacterGroup)
-
-    // console.log("this is groupsarray", groupsArray)
 
     useEffect(() => {
-        fetch(`/groups/`)
+        if(currentUser) {
+        fetch(`/groupswithoutuser/${currentUser.id}`)
         .then(r=> r.json())
-        .then(setGroupsArray, setNewCharacterGroup, )
-    }, [])
+        .then(setGroupsArray)
+        }
+    }, [currentUser])
 
     useEffect(() => {
         if(currentUser) {
             fetch(`/charactersbyuser/${currentUser.id}`)
             .then(r=> r.json())
-            .then(
-                setCharactersByUserArray
-                )
+            .then(setCharactersByUserArray)
         }   
     }, [currentUser])
 
-    const groupComponents = groupsArray?.map(group => <CardsGroups  key= {v4()} {...group} charactersByUserArray={charactersByUserArray} groupsArray={groupsArray} setGroupsArray={setGroupsArray} newCharacterGroup= {newCharacterGroup} setNewCharacterGroup={setNewCharacterGroup} />)
+    const groupComponents = groupsArray.length > 0 ? (
+        groupsArray?.map((group) => (
+            <CardsGroups  
+            key= {v4()} 
+            {...group} 
+            charactersByUserArray={charactersByUserArray} 
+            groupsArray={groupsArray} 
+            setGroupsArray={setGroupsArray} 
+
+            />
+        ))
+    ):(
+        <h5 className="card-subtitle mb-5 m-5 text-muted">Create Your Own group</h5>
+    )
 
     const [hideGroupForm, setHideGroupForm] = useState(true)
 
@@ -52,7 +58,7 @@ function PageLFG() {
 
     function FormButton({handleHideGroupForm}) {
         return(
-            <button onClick={handleHideGroupForm} className="hideFormButton">Add a Group</button>
+            <Button variant="outline-primary" onClick={handleHideGroupForm} className="hideFormButton">Create a Group</Button>
         )
     }
 
@@ -62,14 +68,14 @@ function PageLFG() {
     return (
         <>
             <div>
-                <h2>My Groups</h2>
+                <h2 className='text-center mt-4'>Looking For Group</h2>
             </div>
-            <div className='formdiv'>
+            <div className='text-center mb-4'>
                 {hideGroupForm? <FormButton handleHideGroupForm={handleHideGroupForm}/> : <FormCreateGroup addGroup={addGroup} handleHideGroupForm={handleHideGroupForm}/>}
             </div>
-            <div className='carddiv'>
+            <div className="row-cols-5">
                 <CardGroup className='grid-container'>
-                    {groupComponents}
+                    {groupsArray ? groupComponents: <h5 className="card-subtitle mb-5 m-5 text-muted">Create Your Own group</h5>}
                 </CardGroup>
             </div>
         </>

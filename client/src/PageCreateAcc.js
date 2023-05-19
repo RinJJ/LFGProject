@@ -10,8 +10,8 @@ import { CurrentUserContext } from "./context/CurrentUser"
 
 function PageCreateAcc( ) {
 
-    const { userAuth, setUserAuth } = useContext(UserAuthContext) // is this the session or the user? do i need a seperate context for "current user"
-    const { currentUser, setCurrentUser } = useContext(CurrentUserContext)
+    const { setUserAuth } = useContext(UserAuthContext) // is this the session or the user? do i need a seperate context for "current user"
+    const { setCurrentUser } = useContext(CurrentUserContext)
 
     const history = useHistory()
 
@@ -74,18 +74,24 @@ function PageCreateAcc( ) {
 
     return (
         <>
-        <h2>Please Sign up!</h2>
-        <Form className='login-create' onSubmit={handleSubmit}>
-            <div>
-                    <>
-                        <Form.Control onChange={handleUsername} type='text' name='Username' placeholder='Username'/>
-                        <Form.Control onChange={handleEmail} type='text' name='Email' placeholder='Email'/>
-                        <Form.Control onChange={handlePassword} type='text' name='Password' placeholder='Password'/>
-                    </>
+            <h2 className='text-center mb-4 mt-4'>Please Sign up!</h2>
+            <div className='text-center mb-4'>
+                <Form className='login-create' onSubmit={handleSubmit}>
+                    <div>
+                            <Form.Group>
+                                <Form.Control onChange={handleUsername} type='text' name='Username' style={{ width: '300px', margin: '0 auto' }} placeholder='Username'/>
+                            </Form.Group>
+                            <Form.Group className="mt-1">
+                                <Form.Control onChange={handleEmail} type='text' name='Email' style={{ width: '300px', margin: '0 auto' }} placeholder='Email'/>
+                            </Form.Group>
+                            <Form.Group className="mt-1">
+                                <Form.Control onChange={handlePassword} type='text' name='Password' style={{ width: '300px', margin: '0 auto' }} placeholder='Password'/>
+                            </Form.Group>
 
-                <Button type='submit'>'Sign Up!'</Button>
+                        <Button className="mt-3" variant="outline-primary" type='submit'>'Sign Up!'</Button>
+                    </div>
+                </Form>
             </div>
-        </Form>
         </>
     )
 }

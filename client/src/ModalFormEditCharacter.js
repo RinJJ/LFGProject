@@ -61,10 +61,10 @@ function ModalFormEditCharacter( { key, character_id, editCharacter, currentChar
         // Changing the backend is good and all but dont I need state somehwhere in fetch to change the dom? do I pass character state from PageMyCharacters
     return (
         <>
-            <Button className="modalButton" variant="primary" onClick={handleShow}>Edit Character</Button>
+            <Button className="modalButton" variant="outline-primary" onClick={handleShow}>Edit Character</Button>
             <Modal size="lg" aria-labelledby="contained-modal-title-vcenter" centered show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit Character {character_id}</Modal.Title>
+                    <Modal.Title>Editing Character "{currentCharacter_name}"</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                 <Form.Group>
@@ -72,7 +72,7 @@ function ModalFormEditCharacter( { key, character_id, editCharacter, currentChar
                 onChange={handleCharacter_Name}
                 type="text"
                 name="character_name"
-                placeholder={currentCharacter_name}
+                placeholder="New Name"
                 style={{ width: '200px', margin: '0 auto' }}
                 />
             </Form.Group>
@@ -129,8 +129,8 @@ function ModalFormEditCharacter( { key, character_id, editCharacter, currentChar
             </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleSubmit}>Save</Button>
-                    <Button variant="secondary" onClick={handleClose}>Cancel</Button>
+                    <Button variant="outline-primary" onClick={handleSubmit}>Save</Button>
+                    <Button variant="outline-secondary" onClick={handleClose}>Cancel</Button>
                 </Modal.Footer>
             </Modal>
         </>

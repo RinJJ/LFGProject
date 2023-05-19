@@ -8,7 +8,7 @@ import { CurrentUserContext } from "./context/CurrentUser"
 function PageLogin() {
 
 // Bringing in context
-    const { userAuth, setUserAuth } = useContext(UserAuthContext) // is this the session or the user? do i need a seperate context for "current user"
+    const { setUserAuth } = useContext(UserAuthContext) // is this the session or the user? do i need a seperate context for "current user"
     const { currentUser, setCurrentUser } = useContext(CurrentUserContext)
 
 // UseHistory assignment
@@ -70,16 +70,20 @@ function PageLogin() {
 
     return (
         <>
-        <h2>Please Log in!</h2>
-        <Form className='login' onSubmit={handleSubmit}>
-            <div>
-                    <>
-                        <Form.Control onChange={handleEmail} type='text' name='Email' placeholder='Email'/>
-                        <Form.Control onChange={handlePassword} type='text' name='Password' placeholder='Password'/>
-                    </>
-                <Button type='submit'>Log In!</Button>
+            <h2 className='text-center mb-4 mt-4'>Please Log in!</h2>
+            <div className='text-center mb-4'>
+                <Form className='login' onSubmit={handleSubmit}>
+                    <div>
+                        <Form.Group>
+                            <Form.Control onChange={handleEmail} type='text' name='Email' style={{ width: '300px', margin: '0 auto' }} placeholder='Email'/>
+                        </Form.Group>
+                        <Form.Group className="mt-1">
+                            <Form.Control onChange={handlePassword} type='text' name='Password' style={{ width: '300px', margin: '0 auto' }} placeholder='Password'/>
+                        </Form.Group>
+                        <Button className="mt-3" variant="outline-primary" type='submit'>Log In</Button>
+                    </div>
+                </Form>
             </div>
-        </Form>
         </>
     )
 }

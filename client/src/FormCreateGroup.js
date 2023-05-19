@@ -50,9 +50,15 @@ function FormCreateGroup( { handleHideGroupForm, addGroup } ) {
 
     return (
     <Form className='addForm' onSubmit={handleSubmit}>
-            <Form.Control onChange={handleGroup_Name} type= 'text' name = 'group_name' placeholder='Name Group' />
-            <Button className='add-button' type='submit'>Add Group</Button>
-            <Button className='add-button' onClick={handleHideGroupForm}>Close Form</Button>
+            <Form.Control 
+                onChange={handleGroup_Name} 
+                type= 'text' 
+                name = 'group_name' 
+                placeholder='Insert Name Group' 
+                style={{ width: '400px', margin: '0 auto' }}
+            />
+            <Button variant="outline-primary" className='mx-2 mt-2' type='submit'>Add Group</Button>
+            <Button variant="outline-secondary" className='mx-2 mt-2' onClick={handleHideGroupForm}>Close Form</Button>
     </Form>
 
     )

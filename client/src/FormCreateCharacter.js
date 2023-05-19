@@ -47,11 +47,12 @@ const {UserAuth} = useContext(UserAuthContext)
         })
         .then(r => {
             if(r.ok){
+                r.json().then(newChar => {
+                    addCharacter(newChar)
+                })
                 setCharacter_Name('')
                 setCharacter_Race('')
                 setCharacter_Class('')
-                addCharacter(newCharacter)
-
                 handleHideCharacterForm()
             }
         })
@@ -70,14 +71,14 @@ const {UserAuth} = useContext(UserAuthContext)
             <div>
             <Form.Group>
                 <Form.Control
-                onChange={handleCharacter_Name}
-                type="text"
-                name="character_name"
-                placeholder={"Insert Character Name"}
-                style={{ width: '200px', margin: '0 auto' }}
+                    onChange={handleCharacter_Name}
+                    type="text"
+                    name="character_name"
+                    placeholder={"Insert Character Name"}
+                    style={{ width: '200px', margin: '0 auto' }}
                 />
             </Form.Group>
-            <Form.Group>
+            <Form.Group className="mt-1">
                 <Form.Control
                 as="select"
                 onChange={handleCharacter_Race}
@@ -106,7 +107,7 @@ const {UserAuth} = useContext(UserAuthContext)
                     <option value='Tiefling'>Tiefling</option>
                 </Form.Control>
             </Form.Group>
-            <Form.Group>
+            <Form.Group className="mt-1">
                 <Form.Control
                 as="select"
                 onChange={handleCharacter_Class}
@@ -130,9 +131,9 @@ const {UserAuth} = useContext(UserAuthContext)
             </Form.Group>
 
             </div>
-            <div className="d-flex justify-content-center mt-3">
-            <Button className="mx-2" type='submit'>Add Character</Button>
-            <Button className="mx-2" onClick={handleHideCharacterForm}>Close Form</Button>
+            <div className="d-flex justify-content-center mt-2">
+            <Button className="mx-2" variant="outline-primary" type='submit'>Add Character</Button>
+            <Button className="mx-2" variant="outline-secondary" onClick={handleHideCharacterForm}>Close Form</Button>
             </div>
         </Form>
 

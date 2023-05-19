@@ -43,7 +43,6 @@ function App() {
     <>
       <header>
         <NavBar/>
-        
       </header>
       <div>
         <Switch>

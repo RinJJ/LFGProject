@@ -12,9 +12,7 @@ function PageMyCharacters() {
 
     const { currentUser } = useContext(CurrentUserContext)
 
-
-
-    const [charactersArray, setCharactersArray] = useState()
+    const [charactersArray, setCharactersArray] = useState([])
 
     const addCharacter = (newCharacterObj) => {
         setCharactersArray([...charactersArray, newCharacterObj])
@@ -37,61 +35,54 @@ function PageMyCharacters() {
 
     const editCharacter = (patchedCharacter) => {
         const newArray = [...charactersArray]
-        const index = newArray.findIndex( e => e.id == patchedCharacter.id )
+        const index = newArray.findIndex( e => e.id === patchedCharacter.id )
         newArray[ index ] = patchedCharacter
         setCharactersArray(newArray)
     }
 
-// console.log(charactersArray)
+
 // Map the data we need for the cards
-    const characterComponents = charactersArray?.map(character => 
-        <CardsUserCharacters 
-            key={v4()} 
-            character_id={character.id} 
-            character_name={character.character_name} 
-            character_race={character.character_race} 
-            character_class={character.character_class} 
-            deleteCharacter={deleteCharacter} 
-            editCharacter={editCharacter}
-        />
-        )
+    const characterComponents = charactersArray.length > 0 ? (
+        charactersArray?.map((character) => (
+            <CardsUserCharacters 
+                key={v4()} 
+                character_id={character.id} 
+                character_name={character.character_name} 
+                character_race={character.character_race} 
+                character_class={character.character_class} 
+                deleteCharacter={deleteCharacter} 
+                editCharacter={editCharacter}
+            />
+        ))
+    ): (
+        <h5 className="card-subtitle mb-5 m-5 text-muted">Create a New Character Above</h5>
+    );
+
 
 // Setting state for hiding and showing New Character Form
     const [hideCharacterForm, setHideCharacterForm] = useState(true)
 
     const handleHideCharacterForm = () => { setHideCharacterForm(hideCharacterForm => !hideCharacterForm) }
 
-
-
-
-
-
-
     function FormButton({handleHideCharacterForm}) {
         return(
-            <Button onClick={handleHideCharacterForm} className="hideFormButton">Add a Character</Button>
+            <Button variant='outline-primary' onClick={handleHideCharacterForm} className="hideFormButton">Add a Character</Button>
         )
     }
-
-
-
-
-
-
 
 
 
     return (
         <>
             <div className='text-center mb-2'>
-                <h2>My Characters</h2>
+                <h2 className='mt-4'>My Characters</h2>
             </div>
             <div className='text-center mb-4'>
                 {hideCharacterForm? <FormButton handleHideCharacterForm={handleHideCharacterForm}/> : <FormCreateCharacter addCharacter={addCharacter} handleHideCharacterForm={handleHideCharacterForm}/>}
             </div>
             <div>
                 <CardGroup className="row-cols-5">
-                    {characterComponents}
+                    {charactersArray? characterComponents: <h5 className="card-subtitle mb-5 m-5 text-muted">Create a New Character Above</h5>}
                 </CardGroup>
             </div>
         </>

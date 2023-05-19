@@ -5,7 +5,7 @@ import { CurrentUserContext } from "./context/CurrentUser"
 
 import './index.css'
 
-function ModalDeleteGroup( { id, deleteOwnedGroup} ) {
+function ModalDeleteGroup( { id, deleteOwnedGroup, group_name} ) {
 
     const { currentUser } = useContext(CurrentUserContext)
 
@@ -32,17 +32,17 @@ function ModalDeleteGroup( { id, deleteOwnedGroup} ) {
 
     return (
         <>
-        <Button className="modalButton" variant="primary" onClick={handleShow}>
+        <Button className="modalButton" variant="outline-danger" onClick={handleShow}>
             <span role="img" aria-labelledby="waste-basket">🗑️</span>
         </Button>
         <Modal size="lg" aria-labelledby="contained-modal-title-vcenter" centered show={show} onHide={handleClose}>
             <Modal.Header closeButton>
                 <Modal.Title>Delete</Modal.Title>
             </Modal.Header>
-            <Modal.Body>Are you sure you want to delete?</Modal.Body>
+            <Modal.Body className='text-align center'>Are you sure you want to delete the group "{group_name}"?</Modal.Body>
             <Modal.Footer>
-                <Button variant="secondary" onClick={handleClose}>Close</Button>
-                <Button variant="primary" onClick={handleDelete}>Delete</Button>
+                <Button variant="outline-secondary" onClick={handleClose}>Close</Button>
+                <Button variant="outline-danger" onClick={handleDelete}>Delete</Button>
             </Modal.Footer>
         </Modal>
     </>

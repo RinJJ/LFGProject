@@ -2,6 +2,7 @@ from flask import Flask, request, make_response, session
 from flask_bcrypt import Bcrypt
 from flask_migrate import Migrate
 from flask_restful import Api, Resource
+from sqlalchemy.orm import joinedload
 
 from config import app, db, api, bcrypt
 from models import User, Group, Character, CharacterGroup
@@ -277,20 +278,19 @@ class CharacterGroups(Resource):
         return make_response( character_groups_dict, 200 )
 
     def post(self):
-        try:
-            data = request.get_json()
-            new_character_group = CharacterGroup(
-                character_id = data['character_id'],
-                group_id = data['group_id'],
-            )
-            db.session.add( new_character_group )
-            db.session.commit()
+        data = request.get_json()
+        new_character_group = CharacterGroup(
+            character_id = data['character_id'],
+            group_id = data['group_id'],
+        )
+        db.session.add( new_character_group )
+        db.session.commit()
             
-            groups = Group.query.all()
-            if not groups:
-                return make_response( { 'error' : '404: Groups Not Found' } )
-            groups_dict = [group.to_dict() for group in groups]
-            return make_response( groups_dict, 200 )
+        groups_without_user = Group.query.filter(~Group.character_groups.any(CharacterGroup.character.has(user_id=id))).all()
+        if not groups_without_user:
+            return make_response({'error': 'Groups without the User were not found'}, 404)
+        try:
+            return make_response([group.to_dict() for group in groups_without_user], 200)
 
         except KeyError as e:
             return make_response({'Error' : f'Missing Field: {str(e)}'}, 400)
@@ -497,7 +497,14 @@ api.add_resource(GroupsUserIdIsIn, '/groupsuserisin/<int:id>')
 class DeleteCharacterGroupUserIdIsIn(Resource):
 
     def delete(self, group_id, user_id):
-        character_group = CharacterGroup.query.filter_by(group_id=group_id, character_id=user_id).first()
+        character_group = (
+            CharacterGroup.query
+            .join(CharacterGroup.character)
+            .filter(CharacterGroup.group_id == group_id)
+            .filter(Character.user_id == user_id)
+            .options(joinedload(CharacterGroup.character))
+            .first()
+        )
 
         if not character_group:
             return make_response({'error': 'No character group found for the given user_id and group_id'}, 404)
@@ -511,7 +518,34 @@ class DeleteCharacterGroupUserIdIsIn(Resource):
 
 api.add_resource(DeleteCharacterGroupUserIdIsIn, '/deletecharactergroup/<int:group_id>/<int:user_id>')
 
+class GroupsWithoutUser(Resource):
+    def get(self, id):
+        groups_without_user = Group.query.filter(~Group.character_groups.any(CharacterGroup.character.has(user_id=id))).all()
+        if not groups_without_user:
+            return make_response({'error': 'Groups without the User were not found'}, 404)
+        try:
+            return make_response([group.to_dict() for group in groups_without_user], 200)
+        except Exception as e:
+            return make_response({'error': str(e)}, 500)
+        
+    def post(self, id):
+        data = request.get_json()
+        new_character_group = CharacterGroup(
+            character_id = data['character_id'],
+            group_id = data['group_id'],
+        )
+        db.session.add( new_character_group )
+        db.session.commit()
+            
+        groups_without_user = Group.query.filter(~Group.character_groups.any(CharacterGroup.character.has(user_id=id))).all()
+        if not groups_without_user:
+            return make_response({'error': 'Groups without the User were not found'}, 404)
+        try:
+            return make_response([group.to_dict() for group in groups_without_user], 200)
+        except Exception as e:
+            return make_response( { 'Error' : str(e) }, 422 )
 
+api.add_resource(GroupsWithoutUser, '/groupswithoutuser/<int:id>')
 
 
 

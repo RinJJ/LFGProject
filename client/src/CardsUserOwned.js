@@ -11,21 +11,21 @@ function CardsUserOwned( { group_name, user_id, id, characters, joinedGroupsArra
 
 
     return (
-        <Card  className='bg-dark border-light rounded'>
-        <div className="card">
-        <div className="card-body">
-        <h5 className="card-title">{group_name}</h5>
+        <div className="col mb-4 m-1">
+            <Card  className='bg-dark border-light rounded'>
+                <div className="card-body">
+                    <h5 className="card-title">{group_name}</h5>
 
-        <div>
-            Players Currently In Group:
-            <ul>
-                {characters.map(character => <li key={v4()} > {character.character_name}</li>)}
-            </ul>
+                    <div>
+                        Players Currently In Group:
+                        <ul>
+                            {characters.map(character => <li key={v4()} > {character.character_name}</li>)}
+                        </ul>
+                    </div>
+                    <ModalDeleteGroup user_id={user_id} id={id} joinedGroupsArray={joinedGroupsArray} setJoinedGroupsArray={setJoinedGroupsArray} group_name={group_name} />
+                </div>
+            </Card>
         </div>
-            <ModalDeleteGroup user_id={user_id} id={id} joinedGroupsArray={joinedGroupsArray} setJoinedGroupsArray={setJoinedGroupsArray} />
-        </div>
-        </div>
-        </Card>
     )
 }
 

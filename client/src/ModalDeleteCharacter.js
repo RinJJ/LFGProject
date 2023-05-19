@@ -4,7 +4,7 @@ import Button from 'react-bootstrap/Button'
 
 import './index.css'
 
-function ModalDeleteCharacter( { character_id, deleteCharacter } ) {
+function ModalDeleteCharacter( { character_id, deleteCharacter, currentCharacter_name } ) {
 
     // setting state to show and hide modal. as well as handling the deletion of the obj from the database
 
@@ -32,17 +32,17 @@ function ModalDeleteCharacter( { character_id, deleteCharacter } ) {
 
     return(
         <>
-            <Button className="modalButton" variant="primary" onClick={handleShow}>
+            <Button className="modalButton" variant="outline-danger" onClick={handleShow}>
                 <span role="img" aria-labelledby="waste-basket">🗑️</span>
             </Button>
             <Modal size="lg" aria-labelledby="contained-modal-title-vcenter" centered show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>Delete</Modal.Title>
                 </Modal.Header>
-                <Modal.Body className='text-center'>Are you sure you want to delete?</Modal.Body>
+                <Modal.Body>Are you sure you want to delete "{currentCharacter_name}"?</Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>Close</Button>
-                    <Button variant="primary" onClick={handleDelete}>Delete</Button>
+                    <Button variant="outline-secondary" onClick={handleClose}>Close</Button>
+                    <Button variant="outline-danger" onClick={handleDelete}>Delete</Button>
                 </Modal.Footer>
             </Modal>
         </>
