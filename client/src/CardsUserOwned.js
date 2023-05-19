@@ -22,7 +22,7 @@ function CardsUserOwned( { group_name, user_id, id, characters, joinedGroupsArra
                             {characters.map(character => <li key={v4()} > {character.character_name}</li>)}
                         </ul>
                     </div>
-                    <ModalDeleteGroup user_id={user_id} id={id} joinedGroupsArray={joinedGroupsArray} setJoinedGroupsArray={setJoinedGroupsArray} group_name={group_name} />
+                    <ModalDeleteGroup user_id={user_id} id={id} joinedGroupsArray={joinedGroupsArray} setJoinedGroupsArray={setJoinedGroupsArray} group_name={group_name} deleteOwnedGroup={deleteOwnedGroup} />
                 </div>
             </Card>
         </div>

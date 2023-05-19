@@ -12,15 +12,14 @@ import PageLogout from './PageLogout';
 import PageCreateAcc from './PageCreateAcc';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-import { UserAuthProvider } from './context/UserAuth';
-import { CurrentUserContext, CurrentUserProvider } from './context/CurrentUser';
+import { CurrentUserContext } from './context/CurrentUser';
 
 //TODO: how to handle log out? Conditional rendering on MY pages and Login to change to logout based on current user auth state
 
 function App() {
 
 
-  const {currentUser, setCurrentUser} = useContext(CurrentUserContext)
+  const {setCurrentUser} = useContext(CurrentUserContext)
 
 //Use Effects?
 
@@ -34,7 +33,7 @@ function App() {
         })
       }
     })
-  }, [])
+  }, [setCurrentUser])
 
 // Do I need my Providers of user in index.js? So I can use conditional rendering here for the "my" and LFG routes
 
